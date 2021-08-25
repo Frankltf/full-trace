@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+    <!--开启controller扫描-->
+    <context:component-scan base-package="full.trace.mvc.demo"/>
+
+    <!--配置springmvc的视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--
+        自动注册最合适的处理器映射器，处理器适配器
+    -->
+    <mvc:annotation-driven/>
+
+    <mvc:default-servlet-handler/>
+
+    <!--静态资源配置，方案二，SoringMVC框架自己处理静态资源-->
+    <!--
+        报红不影响，url：http://localhost:8080/resources/test2.html
+
+        mapping：约定的静态资源的url规则
+        location：约定的静态资源的存放位置
+    -->
+    <mvc:resources location="classpath:/" mapping="/resources/**"/>
+    <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+
+    <mvc:interceptors>
+        <!--拦截所有handler-->
+        <!--<bean class="com.lagou.edu.interceptor.MyInterceptor01"/>-->
+        <mvc:interceptor>
+            <!--配置当前拦截器的url拦截规则，**代表当前目录下及其子目录下的所有url-->
+            <mvc:mapping path="/**"/>
+            <!--exclude-mapping可以在mapping的基础上排除一些url拦截-->
+            <!--<mvc:exclude-mapping path="/demo/**"/>-->
+            <bean class="full.trace.mvc.demo.MyInterceptor01"/>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+
+</beans>
