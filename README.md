@@ -5,6 +5,7 @@
 
 ## full-trace原理
 - 集成brave和spring组件，实现自动添加拦截器，对拦截到的请求添加tracer和span。
+- ![](https://img2020.cnblogs.com/blog/1159210/202108/1159210-20210829232811434-99140155.png)
 
 ## full-trace使用
 - 见example
@@ -26,3 +27,4 @@
         return "ok";
     }
 ```
+
